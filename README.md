@@ -1,7 +1,7 @@
 # RecipeCollectionApp
 The open source cook book
 ## Technology stack
-Java 11
-Spring 
+Java 11,
+Spring, 
 Maven
 
