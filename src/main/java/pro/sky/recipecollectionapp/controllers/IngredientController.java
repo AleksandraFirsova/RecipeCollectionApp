@@ -12,7 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.recipecollectionapp.models.Ingredient;
-import pro.sky.recipecollectionapp.models.Recipe;
 import pro.sky.recipecollectionapp.services.IngredientService;
 
 import javax.validation.Valid;
