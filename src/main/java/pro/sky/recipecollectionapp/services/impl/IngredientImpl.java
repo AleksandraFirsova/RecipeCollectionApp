@@ -71,6 +71,10 @@ public class IngredientImpl implements IngredientService {
         }
     }
 
+    public String getDataFile() {
+        return ingredientsFileName;
+    }
+
     private void readFromFile() {
         String json = fileService.readFromFile(ingredientsFileName);
         try {
