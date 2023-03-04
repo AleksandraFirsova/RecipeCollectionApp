@@ -71,6 +71,10 @@ public class RecipeImpl implements RecipeService {
         }
     }
 
+    public String getDataFile() {
+        return recipeFileName;
+    }
+
     private void readFromFile() {
         String json = fileService.readFromFile(recipeFileName);
         try {
