@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.webjars.NotFoundException;
 import pro.sky.recipecollectionapp.models.Ingredient;
 import pro.sky.recipecollectionapp.services.FileService;
 import pro.sky.recipecollectionapp.services.IngredientService;
@@ -15,7 +16,6 @@ import java.util.HashMap;
 
 @Service
 public class IngredientImpl implements IngredientService {
-
     final private FileService fileService;
     HashMap<Integer, Ingredient> ingredientMap = new HashMap<>();
 
@@ -41,6 +41,9 @@ public class IngredientImpl implements IngredientService {
 
     @Override
     public Ingredient getIngredient(int id) {
+        if (ingredientMap.containsKey(id)) {
+            throw new NotFoundException("Ингредиент с заданным id не найден");
+        }
         return ingredientMap.get(id);
     }
 
