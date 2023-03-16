@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pro.sky.recipecollectionapp.services.FileService;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
 public class FileServiceImpl implements FileService {
-
     @Value("${path.to.date.file}")
     private String dataFilePath;
 
@@ -54,5 +52,14 @@ public class FileServiceImpl implements FileService {
     @Override
     public File getDataFile(String fileName) {
         return new File(dataFilePath + "/" + fileName);
+    }
+
+    @Override
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(dataFilePath), "temp", suffix);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

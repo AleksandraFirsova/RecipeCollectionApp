@@ -10,8 +10,13 @@ import pro.sky.recipecollectionapp.services.FileService;
 import pro.sky.recipecollectionapp.services.RecipeService;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class RecipeImpl implements RecipeService {
@@ -45,8 +50,8 @@ public class RecipeImpl implements RecipeService {
     }
 
     @Override
-    public Collection<Recipe> getAllRecipes() {
-        return recipeMap.values();
+    public HashMap<Integer, Recipe> getRecipeMap() {
+        return recipeMap;
     }
 
     @Override
@@ -81,6 +86,32 @@ public class RecipeImpl implements RecipeService {
             recipeMap = new ObjectMapper().readValue(json, new TypeReference<HashMap<Integer, Recipe>>() {
             });
         } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public HashMap<Integer, Recipe> getAllRecipes() {
+        return recipeMap;
+    }
+
+    @Override
+    public Path getTxtFile(String fileName) {
+        Path file = fileService.createTempFile(fileName);
+        try (Writer writer = Files.newBufferedWriter(file, StandardOpenOption.APPEND)) {
+            for (Map.Entry<Integer, Recipe> recipe : getAllRecipes().entrySet()) {
+                writer.append(" Название рецепта: ");
+                writer.append(recipe.getValue().getName());
+                writer.append("\n Время приготовления: ");
+                writer.append(String.valueOf(recipe.getValue().getTimeForPreparing()));
+                writer.append(" ");
+                writer.append("\n Ингредиенты: ");
+                writer.append(String.valueOf(recipe.getValue().getIngredients()));
+                writer.append("\n Шаги приготовления: ");
+                writer.append(String.valueOf(recipe.getValue().getCookingInstructions()));
+            }
+            return file;
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

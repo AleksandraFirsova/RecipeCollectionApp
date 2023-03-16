@@ -15,7 +15,6 @@ import pro.sky.recipecollectionapp.models.Recipe;
 import pro.sky.recipecollectionapp.services.RecipeService;
 
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,8 +42,8 @@ public class RecipeController {
     @GetMapping
     @Operation(summary = "Getting all recipes", description = "Search without parameters")
     @ApiResponse(responseCode = "200", description = "All recipes received", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Recipe.class))})
-    public Collection<Recipe> getAllRecipes() {
-        return recipeService.getAllRecipes();
+    public HashMap<Integer, Recipe> getAllRecipes() {
+        return recipeService.getRecipeMap();
     }
 
     @PutMapping("/{id}")
